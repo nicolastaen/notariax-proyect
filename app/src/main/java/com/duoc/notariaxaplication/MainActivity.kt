@@ -11,37 +11,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.duoc.notariaxaplication.ui.Animacion
+import com.duoc.notariaxaplication.ui.Formulario
 import com.duoc.notariaxaplication.ui.theme.NotariaXaplicationTheme
+import com.duoc.notariaxaplication.viewmodel.FormularioViewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModelForm = FormularioViewModel()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             NotariaXaplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Formulario(viewModelForm)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NotariaXaplicationTheme {
-        Greeting("Android")
     }
 }
