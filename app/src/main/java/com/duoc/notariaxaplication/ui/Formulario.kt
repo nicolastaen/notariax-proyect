@@ -32,7 +32,7 @@ fun Formulario(viewModel: FormularioViewModel) {
         OutlinedTextField(
             value = viewModel.formulario.nombre,
             onValueChange = { viewModel.formulario.nombre = it },
-            label = { Text("Ingresa nombre") },
+            label = { Text("Ingresa tu run") },
             isError = !viewModel.verificarNombre(),
             supportingText = { Text( viewModel.mensajesError.nombre, color = androidx.compose.ui.graphics.Color.Red) }
         )

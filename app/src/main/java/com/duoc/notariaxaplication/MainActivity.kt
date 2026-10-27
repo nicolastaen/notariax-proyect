@@ -26,10 +26,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NotariaXaplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Formulario(viewModelForm)
+                Formulario(viewModelForm)
                 }
             }
         }
     }
-}
