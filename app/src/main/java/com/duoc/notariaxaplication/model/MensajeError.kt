@@ -7,6 +7,5 @@ import androidx.compose.runtime.setValue
 class MensajeError {
     var nombre: String = ""
     var correo: String = ""
-    var edad: String = ""
     var terminos: String = ""
 }

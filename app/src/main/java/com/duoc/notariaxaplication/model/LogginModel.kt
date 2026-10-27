@@ -8,5 +8,5 @@ class LogginModel {
 
     var run by mutableStateOf("")
 
-    var contraseña by mutableStateOf("")
+    var contrasenia by mutableStateOf("")
 }

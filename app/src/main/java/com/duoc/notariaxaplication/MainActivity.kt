@@ -15,6 +15,7 @@ import com.duoc.notariaxaplication.ui.Animacion
 import com.duoc.notariaxaplication.ui.Formulario
 import com.duoc.notariaxaplication.ui.theme.NotariaXaplicationTheme
 import com.duoc.notariaxaplication.viewmodel.FormularioViewModel
+import com.duoc.notariaxaplication.ui.Navegacion
 
 class MainActivity : ComponentActivity() {
 
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NotariaXaplicationTheme {
-                Formulario(viewModelForm)
+                Navegacion()
                 }
             }
         }
