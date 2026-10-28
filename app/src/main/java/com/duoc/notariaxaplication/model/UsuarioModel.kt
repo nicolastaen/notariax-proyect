@@ -1,9 +1,11 @@
 package com.duoc.notariaxaplication.model
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
-
-@Entity(tableName = "usuarios")
+@Entity(tableName = "usuarios",
+        indices = [Index(value = ["run"], unique = true)]
+)
 data class UsuarioModel(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val nombre: String,

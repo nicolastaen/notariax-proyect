@@ -16,7 +16,7 @@ class LogginRepository {
     }
 
     fun validacionRun(): Boolean {
-        if(!loggin.run.matches(Regex("^\\d{7,8}-[\\dkK]$")))
+        if(!loggin.run.matches(Regex("^\\d{1,2}\\.?\\d{3}\\.?\\d{3}-[\\dkK]\$")))
             return false
         else
             return true

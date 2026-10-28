@@ -10,6 +10,9 @@ interface UsuarioDao {
     @Query("SELECT EXISTS(SELECT 1 FROM usuarios WHERE run = :run)")
     suspend fun existeRun(run: String): Boolean
 
+    @Query("SELECT * FROM usuarios WHERE run = :run LIMIT 1")
+    suspend fun getPorRun(run: String): UsuarioModel?
+
     @Insert
     suspend fun insert(usuarioModel: UsuarioModel)
 
