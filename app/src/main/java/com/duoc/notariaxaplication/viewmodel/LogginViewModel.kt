@@ -17,8 +17,8 @@ class LogginViewModel : ViewModel() {
     var mensajeError: MensajeError by mutableStateOf(repository.getMsError())
 
     fun verificarLoggin(): Boolean {
-        return verificarLoggin()
-
+        return verificarRun() &&
+                verificarContrasenia()
     }
 
     fun verificarRun(): Boolean {
@@ -29,6 +29,15 @@ class LogginViewModel : ViewModel() {
             mensajeError.run = ""
             return true
         }
-        return repository.validacionRun()
+    }
+
+    fun verificarContrasenia(): Boolean {
+        if (!repository.validacionContrasenia()) {
+            mensajeError.contrasenia = "La contraseña no puede estar vacía"
+            return false
+        } else {
+            mensajeError.contrasenia = ""
+            return true
+        }
     }
 }

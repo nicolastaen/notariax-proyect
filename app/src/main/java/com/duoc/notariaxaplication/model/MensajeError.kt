@@ -9,5 +9,7 @@ class MensajeError {
     var correo: String = ""
 
     var run: String = ""
+
+    var contrasenia: String = ""
     var terminos: String = ""
 }

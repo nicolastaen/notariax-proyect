@@ -19,11 +19,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.duoc.notariaxaplication.viewmodel.FormularioViewModel
-private val viewModelForm = FormularioViewModel()
+import com.duoc.notariaxaplication.viewmodel.LogginViewModel
+
+private val viewModelLoggin = LogginViewModel()
 @Composable
 fun Navegacion() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "loggin") {
-        composable("loggin") { Formulario(viewModelForm) }
+        composable("loggin") { Loggin(viewModel = viewModelLoggin,
+            onOlvidoContrasenia = { /* en proceso */ },
+            onIrARegistro = { navController.navigate("register") }
+            )
+        }
     }
 }

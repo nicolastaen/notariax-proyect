@@ -65,16 +65,6 @@ fun Formulario(viewModel: FormularioViewModel) {
 
         Button(
             enabled = viewModel.verificarFormulario(),
-            onClick = if(viewModel.verificarFormulario()){
-
-            }
-        ) {
-            Text("no tienes cuenta? Registrate")
-        }
-
-
-        Button(
-            enabled = viewModel.verificarFormulario(),
             onClick = {
                 if(viewModel.verificarFormulario()) {
                     abrirModal = true
