@@ -18,28 +18,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-
+import com.duoc.notariaxaplication.viewmodel.FormularioViewModel
+private val viewModelForm = FormularioViewModel()
 @Composable
 fun Navegacion() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "loggin") {
-        composable("loggin") { Pagina1(navController) }
-        composable("register") { Pagina2(navController) }
-    }
-}
-
-@Composable
-fun Pagina1(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Página Número Uno")
-        Text("8 de agosto, día del gato")
-
-        Button(onClick = { navController.navigate("pagina2") }) {
-            Text("Ir a la página 2")
-        }
+        composable("loggin") { Formulario(viewModelForm) }
     }
 }

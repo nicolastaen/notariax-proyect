@@ -16,9 +16,17 @@ class LogginRepository {
     }
 
     fun validacionRun(): Boolean {
-        if(!loggin.run.matches(Regex("\\^.*-.\\\$\\")))
+        if(!loggin.run.matches(Regex("^\\d{7,8}-[\\dkK]$")))
             return false
         else
             return true
         }
+
+    fun validacionContrasenia(): Boolean{
+        if(loggin.contrasenia=="")
+            return false
+        else
+            return true
+    }
+
     }

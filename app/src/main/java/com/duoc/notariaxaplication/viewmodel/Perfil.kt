@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.duoc.notariaxaplication.model.DatosPersonalesModel
 import com.duoc.notariaxaplication.model.RegisterModel
+import com.duoc.notariaxaplication.model.UsuarioModel
 
 class Perfil {
         // 1. Declaración de variables observables del Perfil
@@ -20,14 +21,14 @@ class Perfil {
 
         // 2. Función para recibir y traspasar los datos
         fun traspasarDatosDelRegistro(
-            datosPersonales: DatosPersonalesModel,
+            usuarioModel: UsuarioModel,
             register: RegisterModel
         ) {
-            nombre = datosPersonales.nombre
-            ap_paterno = datosPersonales.ap_paterno
-            ap_materno = datosPersonales.ap_materno
-            run = datosPersonales.run
-            direccion = datosPersonales.direccion
-            correo = register.correo
+            nombre = usuarioModel.nombre
+            ap_paterno = usuarioModel.ap_paterno
+            ap_materno = usuarioModel.ap_materno
+            run = usuarioModel.run
+            direccion = usuarioModel.direccion
+            correo = usuarioModel.correo
         }
     }

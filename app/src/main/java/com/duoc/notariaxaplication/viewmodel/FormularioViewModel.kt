@@ -17,7 +17,6 @@ class FormularioViewModel : ViewModel() {
     fun verificarFormulario(): Boolean {
         return verificarNombre() &&
                 verificarCorreo() &&
-                verificarEdad() &&
                 verificarTerminos()
     }
 
@@ -41,17 +40,6 @@ class FormularioViewModel : ViewModel() {
             return true
         }
         return repository.validacionCorreo()
-    }
-
-    fun verificarEdad(): Boolean {
-        if(!repository.validacionEdad()) {
-            mensajesError.edad = "La edad debe ser un número entre 0 y 120"
-            return false
-        } else {
-            mensajesError.edad = ""
-            return true
-        }
-        return repository.validacionEdad()
     }
 
     fun verificarTerminos(): Boolean {

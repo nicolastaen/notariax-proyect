@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 class RegisterModel {
-
     var correo by mutableStateOf("")
 
     var contrasenia by mutableStateOf("")
