@@ -8,6 +8,4 @@ class RegisterModel {
     var correo by mutableStateOf("")
 
     var contrasenia by mutableStateOf("")
-
-    var con_contrasenia by mutableStateOf(false)
-}
+    var con_contrasenia by mutableStateOf("")}

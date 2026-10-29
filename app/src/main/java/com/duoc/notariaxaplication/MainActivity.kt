@@ -6,24 +6,26 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.duoc.notariaxaplication.ui.Animacion
-import com.duoc.notariaxaplication.ui.Formulario
-import com.duoc.notariaxaplication.ui.theme.NotariaXaplicationTheme
-import com.duoc.notariaxaplication.viewmodel.FormularioViewModel
+import androidx.room.Room
+import com.duoc.notariaxaplication.model.AppDatabase
+import com.duoc.notariaxaplication.repository.UsuarioRepository
 import com.duoc.notariaxaplication.ui.Navegacion
-
+import com.duoc.notariaxaplication.ui.theme.NotariaXaplicationTheme
+import com.duoc.notariaxaplication.viewmodel.LogginViewModel
+import com.duoc.notariaxaplication.viewmodel.RegisterViewModel
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModelForm = FormularioViewModel()
-
+    private val db by lazy {
+        Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "notariax_db"
+        ).build()
+    }
+    private val usuarioRepository by lazy { UsuarioRepository(db.usuarioDao()) }
+    private val logginViewModel by lazy { LogginViewModel() }
+    private val registerViewModel by lazy { RegisterViewModel(usuarioRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             NotariaXaplicationTheme {
-                Navegacion()
+                Navegacion(logginViewModel,registerViewModel)
             }
         }
     }
