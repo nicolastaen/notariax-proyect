@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.room.Room
 import com.duoc.notariaxaplication.model.AppDatabase
+import com.duoc.notariaxaplication.repository.SesionManager
 import com.duoc.notariaxaplication.repository.UsuarioRepository
 import com.duoc.notariaxaplication.ui.Navegacion
 import com.duoc.notariaxaplication.ui.theme.NotariaXaplicationTheme
@@ -24,7 +25,8 @@ class MainActivity : ComponentActivity() {
         ).build()
     }
     private val usuarioRepository by lazy { UsuarioRepository(db.usuarioDao()) }
-    private val logginViewModel by lazy { LogginViewModel(usuarioRepository) }
+    private val sesionManager by lazy { SesionManager(applicationContext) }
+    private val logginViewModel by lazy { LogginViewModel(usuarioRepository, sesionManager) }
     private val registerViewModel by lazy { RegisterViewModel(usuarioRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +37,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             NotariaXaplicationTheme {
-                Navegacion(logginViewModel,registerViewModel)
+                Navegacion(logginViewModel, registerViewModel)
             }
         }
     }

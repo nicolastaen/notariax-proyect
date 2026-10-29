@@ -6,13 +6,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.duoc.notariaxaplication.repository.LogginRepository
+import com.duoc.notariaxaplication.repository.SesionManager
 import com.duoc.notariaxaplication.repository.UsuarioRepository
 import com.duoc.notariaxaplication.model.LogginModel
 import com.duoc.notariaxaplication.model.MensajeError
 import com.duoc.notariaxaplication.model.UsuarioModel
 import kotlinx.coroutines.launch
 
-class LogginViewModel(private val usuarioRepository: UsuarioRepository) : ViewModel() {
+class LogginViewModel(
+    private val usuarioRepository: UsuarioRepository,
+    private val sesionManager: SesionManager
+) : ViewModel() {
 
     private val repository = LogginRepository()
 
@@ -25,6 +29,32 @@ class LogginViewModel(private val usuarioRepository: UsuarioRepository) : ViewMo
 
     var usuarioActual by mutableStateOf<UsuarioModel?>(null)
         private set
+
+    var verificandoSesion by mutableStateOf(true)
+        private set
+
+    init {
+        restaurarSesion()
+    }
+
+    private fun restaurarSesion() {
+        val run = sesionManager.obtenerRun()
+        if (run == null) {
+            verificandoSesion = false
+            return
+        }
+        viewModelScope.launch {
+            try {
+                usuarioActual = usuarioRepository.obtenerPorRun(run)
+                // Si el usuario ya no existe en la BD, se descarta la sesión guardada.
+                if (usuarioActual == null) sesionManager.cerrar()
+            } catch (e: Exception) {
+                usuarioActual = null
+            } finally {
+                verificandoSesion = false
+            }
+        }
+    }
 
     fun verificarLoggin(): Boolean {
         return verificarRun() &&
@@ -62,6 +92,7 @@ class LogginViewModel(private val usuarioRepository: UsuarioRepository) : ViewMo
                 val usuario = usuarioRepository.iniciarSesion(loggin.run, loggin.contrasenia)
                 if (usuario != null) {
                     usuarioActual = usuario
+                    sesionManager.guardar(usuario.run)
                     loggin.contrasenia = ""
                     onExito()
                 } else {
@@ -76,6 +107,7 @@ class LogginViewModel(private val usuarioRepository: UsuarioRepository) : ViewMo
     }
 
     fun cerrarSesion() {
+        sesionManager.cerrar()
         usuarioActual = null
         loggin.run = ""
         loggin.contrasenia = ""

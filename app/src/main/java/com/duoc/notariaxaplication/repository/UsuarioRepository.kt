@@ -26,10 +26,12 @@ class UsuarioRepository(private val dao: UsuarioDao) {
     }
 
     suspend fun existeRun(run: String): Boolean = dao.existeRun(normalizarRun(run))
+
+    suspend fun obtenerPorRun(run: String): UsuarioModel? = dao.getPorRun(normalizarRun(run))
+
     private fun normalizarRun(run: String): String =
         run.replace(".", "").trim().uppercase()
 
-    // Nunca se guarda la contraseña en texto plano: se guarda su hash SHA-256.
     private fun hash(texto: String): String =
         MessageDigest.getInstance("SHA-256")
             .digest(texto.toByteArray(Charsets.UTF_8))
