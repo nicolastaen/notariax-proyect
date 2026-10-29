@@ -20,7 +20,13 @@ fun Navegacion(
             Loggin(
                 viewModel = logginViewModel,
                 onOlvidoContrasenia = { /* en proceso */ },
-                onIrARegistro = { navController.navigate("register") }
+                onIrARegistro = { navController.navigate("register") },
+                onLoginExitoso = {
+                    // Entra al perfil y saca el login del historial: "atrás" no vuelve a él.
+                    navController.navigate("perfil") {
+                        popUpTo("loggin") { inclusive = true }
+                    }
+                }
             )
         }
 
@@ -38,6 +44,18 @@ fun Navegacion(
                     // Vuelve al login y borra del historial las pantallas de registro.
                     navController.navigate("loggin") {
                         popUpTo("loggin") { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable("perfil") {
+            PerfilUsuario(
+                usuario = logginViewModel.usuarioActual,
+                onCerrarSesion = {
+                    logginViewModel.cerrarSesion()
+                    navController.navigate("loggin") {
+                        popUpTo("perfil") { inclusive = true }
                     }
                 }
             )

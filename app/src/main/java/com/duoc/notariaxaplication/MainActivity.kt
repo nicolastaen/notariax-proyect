@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         ).build()
     }
     private val usuarioRepository by lazy { UsuarioRepository(db.usuarioDao()) }
-    private val logginViewModel by lazy { LogginViewModel() }
+    private val logginViewModel by lazy { LogginViewModel(usuarioRepository) }
     private val registerViewModel by lazy { RegisterViewModel(usuarioRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

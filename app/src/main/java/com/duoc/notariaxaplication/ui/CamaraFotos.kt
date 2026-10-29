@@ -1,4 +1,4 @@
-import android.Manifest
+/*import android.Manifest
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
@@ -15,12 +15,11 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
-import com.duoc.notariaxaplication.viewmodel.FormularioViewModel
-import com.duoc.notariaxaplication.viewmodel.Perfil
+import com.duoc.notariaxaplication.viewmodel.PerfilUsuario
 import java.io.File
 
 @Composable
-fun CamaraFotos(viewModel: Perfil) {
+fun CamaraFotos(viewModel: PerfilUsuario) {
     val context = LocalContext.current
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
@@ -75,4 +74,4 @@ fun CamaraFotos(viewModel: Perfil) {
         }
         Spacer(modifier = Modifier.height(16.dp))
     }
-}
+}*/

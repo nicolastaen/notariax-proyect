@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -31,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.duoc.notariaxaplication.R
 import com.duoc.notariaxaplication.ui.theme.NotariaAzulEnlace
+import com.duoc.notariaxaplication.ui.theme.NotariaError
 import com.duoc.notariaxaplication.ui.theme.NotariaFondo
 import com.duoc.notariaxaplication.viewmodel.LogginViewModel
 
@@ -39,10 +38,10 @@ import com.duoc.notariaxaplication.viewmodel.LogginViewModel
 fun Loggin(
     viewModel: LogginViewModel,
     onOlvidoContrasenia: () -> Unit,
-    onIrARegistro: () -> Unit
+    onIrARegistro: () -> Unit,
+    onLoginExitoso: () -> Unit
 ) {
 
-    var abrirModal by remember { mutableStateOf(false) }
     var runTocado by remember { mutableStateOf(false) }
     var contraseniaTocada by remember { mutableStateOf(false) }
 
@@ -84,6 +83,7 @@ fun Loggin(
             valor = viewModel.loggin.run,
             alCambiar = {
                 viewModel.loggin.run = it
+                viewModel.errorLogin = ""
                 runTocado = true
             },
             placeholder = "12.345.678-9",
@@ -98,6 +98,7 @@ fun Loggin(
             valor = viewModel.loggin.contrasenia,
             alCambiar = {
                 viewModel.loggin.contrasenia = it
+                viewModel.errorLogin = ""
                 contraseniaTocada = true
             },
             placeholder = "********",
@@ -106,16 +107,24 @@ fun Loggin(
             transformacion = PasswordVisualTransformation()
         )
 
+        if (viewModel.errorLogin.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = viewModel.errorLogin,
+                color = NotariaError,
+                fontSize = 12.sp
+            )
+        }
+
         Spacer(modifier = Modifier.weight(1f))
 
         BotonDorado(
-            texto = "Iniciar sesión",
+            texto = if (viewModel.cargando) "Ingresando..." else "Iniciar sesión",
+            habilitado = !viewModel.cargando,
             onClick = {
                 runTocado = true
                 contraseniaTocada = true
-                if (viewModel.verificarLoggin()) {
-                    abrirModal = true
-                }
+                viewModel.iniciarSesion(onExito = onLoginExitoso)
             }
         )
 
@@ -151,17 +160,5 @@ fun Loggin(
         }
 
         Spacer(modifier = Modifier.weight(1f))
-    }
-
-    // Provisorio: más adelante aquí se consulta la base de datos (Room).
-    if (abrirModal) {
-        AlertDialog(
-            onDismissRequest = { },
-            title = { Text("Ingreso") },
-            text = { Text("Los datos tienen un formato válido") },
-            confirmButton = {
-                Button(onClick = { abrirModal = false }) { Text("OK") }
-            }
-        )
     }
 }
