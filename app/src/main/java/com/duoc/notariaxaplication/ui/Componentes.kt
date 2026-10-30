@@ -37,8 +37,6 @@ import com.duoc.notariaxaplication.ui.theme.NotariaError
 import com.duoc.notariaxaplication.ui.theme.NotariaFondo
 import com.duoc.notariaxaplication.ui.theme.NotariaPlaceholder
 
-// Campo de texto con la etiqueta arriba (como en el prototipo).
-// Se reutiliza en las distintas pantallas para no repetir el estilo.
 @Composable
 fun CampoTexto(
     etiqueta: String,

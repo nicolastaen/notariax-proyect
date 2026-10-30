@@ -109,7 +109,7 @@ fun Navegacion(
 
             composable("perfil") {
                 PerfilUsuario(
-                    usuario = logginViewModel.usuarioActual,
+                    viewModel = logginViewModel,
                     onCerrarSesion = {
                         logginViewModel.cerrarSesion()
                         navController.navigate("loggin") {

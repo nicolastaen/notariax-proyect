@@ -29,6 +29,8 @@ class UsuarioRepository(private val dao: UsuarioDao) {
 
     suspend fun obtenerPorRun(run: String): UsuarioModel? = dao.getPorRun(normalizarRun(run))
 
+    suspend fun actualizarFoto(id: Int, ruta: String?) = dao.actualizarFoto(id, ruta)
+
     private fun normalizarRun(run: String): String =
         run.replace(".", "").trim().uppercase()
 

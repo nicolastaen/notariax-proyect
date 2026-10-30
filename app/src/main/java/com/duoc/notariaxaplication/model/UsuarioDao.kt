@@ -13,6 +13,9 @@ interface UsuarioDao {
     @Query("SELECT * FROM usuarios WHERE run = :run LIMIT 1")
     suspend fun getPorRun(run: String): UsuarioModel?
 
+    @Query("UPDATE usuarios SET fotoPerfil = :ruta WHERE id = :id")
+    suspend fun actualizarFoto(id: Int, ruta: String?)
+
     @Insert
     suspend fun insert(usuarioModel: UsuarioModel)
 

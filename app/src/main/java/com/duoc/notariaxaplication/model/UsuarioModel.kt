@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 @Entity(tableName = "usuarios",
-        indices = [Index(value = ["run"], unique = true)]
+    indices = [Index(value = ["run"], unique = true)]
 )
 data class UsuarioModel(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
@@ -14,4 +14,6 @@ data class UsuarioModel(
     val run: String,
     val contrasenia: String,
     val direccion: String,
-    val correo: String)
+    val correo: String,
+    val fotoPerfil: String? = null
+)
