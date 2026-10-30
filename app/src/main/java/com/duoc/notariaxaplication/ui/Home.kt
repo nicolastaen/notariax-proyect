@@ -36,8 +36,6 @@ import com.duoc.notariaxaplication.ui.theme.NotariaDorado
 import com.duoc.notariaxaplication.ui.theme.NotariaFondo
 import com.duoc.notariaxaplication.ui.theme.NotariaPlaceholder
 
-// Pantalla principal según el prototipo. Los botones aún no tienen función.
-// La barra inferior la pone Navegacion (Scaffold), por eso aquí no aparece.
 @Composable
 fun Home(usuario: UsuarioModel?) {
     Column(
@@ -87,7 +85,6 @@ fun Home(usuario: UsuarioModel?) {
     }
 }
 
-// Tarjeta con ícono, título, descripción y flecha. clickable la vuelve un botón.
 @Composable
 private fun TarjetaAccion(
     icono: ImageVector,

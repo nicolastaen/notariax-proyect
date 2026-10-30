@@ -63,36 +63,27 @@ fun PerfilUsuario(
     val foto = viewModel.fotoPerfil
 
     var mostrarOpciones by rememberSaveable { mutableStateOf(false) }
-    // Uri donde la cámara guarda la foto. rememberSaveable (y no remember): al abrir la cámara
-    // la pantalla puede rotarse o destruirse, y la Uri debe sobrevivir para recibir el resultado.
     var uriCamara by rememberSaveable { mutableStateOf<Uri?>(null) }
 
-    // Lanzador de la cámara. TakePicture() abre la app de cámara del sistema, que guarda la foto
-    // en la Uri recibida y responde true/false. Como el manifest declara el permiso CAMERA,
-    // Android EXIGE tenerlo concedido: por eso se pide antes (ver pedirPermisoCamara).
+
     val lanzadorCamara = rememberLauncherForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { tomada ->
         if (tomada) uriCamara?.let { viewModel.guardarFoto(it) }
     }
 
-    // Lanzador de la galería. PickVisualMedia abre el selector de fotos del sistema.
     val lanzadorGaleria = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
-        // uri es null si el usuario cerró el selector sin elegir nada.
         uri?.let { viewModel.guardarFoto(it) }
     }
 
-    // Permiso de la galería según la versión de Android (Android 13 = API 33 cambió el nombre).
     val permisoGaleria = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         Manifest.permission.READ_MEDIA_IMAGES
     } else {
         Manifest.permission.READ_EXTERNAL_STORAGE
     }
 
-    // RequestPermission() muestra el diálogo "¿Permitir a NotariaX...?" y responde true/false.
-    // Si el permiso ya estaba concedido, no muestra nada y responde true al instante.
     val pedirPermisoCamara = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { concedido ->
@@ -136,7 +127,7 @@ fun PerfilUsuario(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Círculo de la foto: al tocarlo se abre el diálogo para elegir el origen.
+        // Círculo de la foto
         Box(
             modifier = Modifier
                 .size(150.dp)
@@ -257,8 +248,6 @@ fun PerfilUsuario(
     }
 }
 
-// Dato del usuario con el aspecto de campo del prototipo (etiqueta dorada y caja blanca).
-// Es de solo lectura: muestra el dato, no se edita.
 @Composable
 private fun CampoLectura(etiqueta: String, valor: String, modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
