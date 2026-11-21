@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.duoc.notariaxaplication.remote.mensajeDeError
 import com.duoc.notariaxaplication.repository.FotoStorage
 import com.duoc.notariaxaplication.repository.LogginRepository
 import com.duoc.notariaxaplication.repository.SesionManager
@@ -110,7 +111,7 @@ class LogginViewModel(
                     errorLogin = "RUN o contraseña incorrectos"
                 }
             } catch (e: Exception) {
-                errorLogin = "No se pudo iniciar sesión. Intenta nuevamente"
+                errorLogin = e.mensajeDeError("No se pudo iniciar sesión. Intenta nuevamente")
             } finally {
                 cargando = false
             }
@@ -139,13 +140,11 @@ class LogginViewModel(
             guardandoFoto = true
             errorFoto = ""
             try {
-                val rutaNueva = fotoStorage.guardar(uri, usuario.id)
-                usuarioRepository.actualizarFoto(usuario.id, rutaNueva)
-                usuario.fotoPerfil?.let { fotoStorage.eliminar(it) }
+                val rutaNueva = usuarioRepository.cambiarFoto(usuario, uri)
                 usuarioActual = usuario.copy(fotoPerfil = rutaNueva)
                 cargarFoto()
             } catch (e: Exception) {
-                errorFoto = "No se pudo guardar la foto. Intenta nuevamente"
+                errorFoto = e.mensajeDeError("No se pudo guardar la foto. Intenta nuevamente")
             } finally {
                 guardandoFoto = false
             }
@@ -156,12 +155,11 @@ class LogginViewModel(
         val usuario = usuarioActual ?: return
         viewModelScope.launch {
             try {
-                usuarioRepository.actualizarFoto(usuario.id, null)
-                usuario.fotoPerfil?.let { fotoStorage.eliminar(it) }
+                usuarioRepository.quitarFoto(usuario)
                 usuarioActual = usuario.copy(fotoPerfil = null)
                 fotoPerfil = null
             } catch (e: Exception) {
-                errorFoto = "No se pudo eliminar la foto"
+                errorFoto = e.mensajeDeError("No se pudo eliminar la foto")
             }
         }
     }

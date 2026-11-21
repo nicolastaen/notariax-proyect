@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
+import android.util.Base64
 import androidx.core.content.FileProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -56,9 +57,28 @@ class FotoStorage(context: Context) {
 
         val carpeta = File(context.filesDir, "fotos").apply { mkdirs() }
         val archivo = File(carpeta, "perfil_${idUsuario}_${System.currentTimeMillis()}.jpg")
-        FileOutputStream(archivo).use { imagen.compress(Bitmap.CompressFormat.JPEG, 90, it) }
+        val lado = maxOf(imagen.width, imagen.height)
+        val reducida = if (lado > LADO_MAXIMO) {
+            val factor = LADO_MAXIMO.toFloat() / lado
+            Bitmap.createScaledBitmap(
+                imagen, (imagen.width * factor).toInt(), (imagen.height * factor).toInt(), true
+            )
+        } else imagen
+        FileOutputStream(archivo).use { reducida.compress(Bitmap.CompressFormat.JPEG, 80, it) }
         archivo.absolutePath
     }
+
+    suspend fun aBase64(ruta: String): String = withContext(Dispatchers.IO) {
+        Base64.encodeToString(File(ruta).readBytes(), Base64.NO_WRAP)
+    }
+
+    suspend fun guardarDesdeBase64(base64: String, idUsuario: Int): String =
+        withContext(Dispatchers.IO) {
+            val carpeta = File(context.filesDir, "fotos").apply { mkdirs() }
+            val archivo = File(carpeta, "perfil_${idUsuario}_${System.currentTimeMillis()}.jpg")
+            archivo.writeBytes(Base64.decode(base64, Base64.DEFAULT))
+            archivo.absolutePath
+        }
 
     suspend fun cargar(ruta: String): Bitmap? = withContext(Dispatchers.IO) {
         BitmapFactory.decodeFile(ruta)
@@ -69,6 +89,6 @@ class FotoStorage(context: Context) {
     }
 
     private companion object {
-        const val LADO_MAXIMO = 1024
+        const val LADO_MAXIMO = 512
     }
 }

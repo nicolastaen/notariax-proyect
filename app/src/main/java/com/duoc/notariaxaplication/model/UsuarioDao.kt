@@ -16,7 +16,7 @@ interface UsuarioDao {
     @Query("UPDATE usuarios SET fotoPerfil = :ruta WHERE id = :id")
     suspend fun actualizarFoto(id: Int, ruta: String?)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(usuarioModel: UsuarioModel)
 
     @Update

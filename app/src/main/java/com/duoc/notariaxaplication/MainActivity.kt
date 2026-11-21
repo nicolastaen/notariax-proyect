@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.room.Room
 import com.duoc.notariaxaplication.model.AppDatabase
+import com.duoc.notariaxaplication.remote.RetrofitClient
 import com.duoc.notariaxaplication.repository.FotoStorage
 import com.duoc.notariaxaplication.repository.SesionManager
 import com.duoc.notariaxaplication.repository.UsuarioRepository
@@ -25,7 +26,8 @@ class MainActivity : ComponentActivity() {
             "notariax_db"
         ).build()
     }
-    private val usuarioRepository by lazy { UsuarioRepository(db.usuarioDao()) }
+    private val api by lazy { RetrofitClient.crearApi() }
+    private val usuarioRepository by lazy { UsuarioRepository(db.usuarioDao(), api, fotoStorage) }
     private val sesionManager by lazy { SesionManager(applicationContext) }
     private val fotoStorage by lazy { FotoStorage(applicationContext) }
     private val logginViewModel by lazy { LogginViewModel(usuarioRepository, sesionManager, fotoStorage) }

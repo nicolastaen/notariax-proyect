@@ -10,6 +10,7 @@ import com.duoc.notariaxaplication.model.MensajeError
 import com.duoc.notariaxaplication.model.RegisterModel
 import com.duoc.notariaxaplication.model.UsuarioModel
 import com.duoc.notariaxaplication.repository.RegisterRepository
+import com.duoc.notariaxaplication.remote.mensajeDeError
 import com.duoc.notariaxaplication.repository.UsuarioRepository
 import kotlinx.coroutines.launch
 class RegisterViewModel(private val usuarioRepository: UsuarioRepository) : ViewModel() {
@@ -148,7 +149,7 @@ class RegisterViewModel(private val usuarioRepository: UsuarioRepository) : View
                     errorRegistro = "Este RUN ya está registrado"
                 }
             } catch (e: Exception) {
-                errorRegistro = "No se pudo registrar. Intenta nuevamente"
+                errorRegistro = e.mensajeDeError("No se pudo registrar. Intenta nuevamente")
             } finally {
                 registrando = false
             }
