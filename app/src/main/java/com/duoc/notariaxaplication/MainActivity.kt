@@ -11,11 +11,13 @@ import com.duoc.notariaxaplication.model.AppDatabase
 import com.duoc.notariaxaplication.remote.RetrofitClient
 import com.duoc.notariaxaplication.repository.FotoStorage
 import com.duoc.notariaxaplication.repository.SesionManager
+import com.duoc.notariaxaplication.repository.TramiteRepository
 import com.duoc.notariaxaplication.repository.UsuarioRepository
 import com.duoc.notariaxaplication.ui.Navegacion
 import com.duoc.notariaxaplication.ui.theme.NotariaXaplicationTheme
 import com.duoc.notariaxaplication.viewmodel.LogginViewModel
 import com.duoc.notariaxaplication.viewmodel.RegisterViewModel
+import com.duoc.notariaxaplication.viewmodel.TramitesViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -32,6 +34,9 @@ class MainActivity : ComponentActivity() {
     private val fotoStorage by lazy { FotoStorage(applicationContext) }
     private val logginViewModel by lazy { LogginViewModel(usuarioRepository, sesionManager, fotoStorage) }
     private val registerViewModel by lazy { RegisterViewModel(usuarioRepository) }
+    private val tramitesApi by lazy { RetrofitClient.crearTramitesApi() }
+    private val tramiteRepository by lazy { TramiteRepository(tramitesApi) }
+    private val tramitesViewModel by lazy { TramitesViewModel(tramiteRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +46,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             NotariaXaplicationTheme {
-                Navegacion(logginViewModel, registerViewModel)
+                Navegacion(logginViewModel, registerViewModel, tramitesViewModel)
             }
         }
     }

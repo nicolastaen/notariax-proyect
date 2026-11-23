@@ -22,11 +22,13 @@ import com.duoc.notariaxaplication.ui.theme.NotariaDorado
 import com.duoc.notariaxaplication.ui.theme.NotariaFondo
 import com.duoc.notariaxaplication.viewmodel.LogginViewModel
 import com.duoc.notariaxaplication.viewmodel.RegisterViewModel
+import com.duoc.notariaxaplication.viewmodel.TramitesViewModel
 
 @Composable
 fun Navegacion(
     logginViewModel: LogginViewModel,
-    registerViewModel: RegisterViewModel
+    registerViewModel: RegisterViewModel,
+    tramitesViewModel: TramitesViewModel
 ) {
     val navController = rememberNavController()
 
@@ -113,7 +115,41 @@ fun Navegacion(
             }
 
             composable("home") {
-                Home(usuario = logginViewModel.usuarioActual)
+                Home(
+                    usuario = logginViewModel.usuarioActual,
+                    onCrearTramite = { navController.navigate("crearTramite") },
+                    onMisTramites = { navController.navigate("misTramites") },
+                    onFirmarDocumento = { navController.navigate("firmarDocumento") }
+                )
+            }
+
+            composable("crearTramite") {
+                CrearTramite(
+                    usuario = logginViewModel.usuarioActual,
+                    viewModel = tramitesViewModel,
+                    onVolver = { navController.popBackStack() },
+                    onCreado = {
+                        navController.navigate("misTramites") {
+                            popUpTo("crearTramite") { inclusive = true }
+                        }
+                    }
+                )
+            }
+
+            composable("misTramites") {
+                MisTramites(
+                    usuario = logginViewModel.usuarioActual,
+                    viewModel = tramitesViewModel,
+                    onVolver = { navController.popBackStack() }
+                )
+            }
+
+            composable("firmarDocumento") {
+                FirmarDocumento(
+                    usuario = logginViewModel.usuarioActual,
+                    viewModel = tramitesViewModel,
+                    onVolver = { navController.popBackStack() }
+                )
             }
 
             composable("perfil") {
@@ -121,6 +157,7 @@ fun Navegacion(
                     viewModel = logginViewModel,
                     onCerrarSesion = {
                         logginViewModel.cerrarSesion()
+                        tramitesViewModel.limpiar()
                         navController.navigate("loggin") {
                             popUpTo("home") { inclusive = true }
                         }

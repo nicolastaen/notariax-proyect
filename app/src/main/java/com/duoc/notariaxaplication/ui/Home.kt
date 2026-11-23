@@ -37,7 +37,12 @@ import com.duoc.notariaxaplication.ui.theme.NotariaFondo
 import com.duoc.notariaxaplication.ui.theme.NotariaPlaceholder
 
 @Composable
-fun Home(usuario: UsuarioModel?) {
+fun Home(
+    usuario: UsuarioModel?,
+    onCrearTramite: () -> Unit,
+    onMisTramites: () -> Unit,
+    onFirmarDocumento: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,15 +76,15 @@ fun Home(usuario: UsuarioModel?) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        BotonDorado(texto = "iniciar trámite ahora →", onClick = { /* en proceso */ })
+        BotonDorado(texto = "iniciar trámite ahora →", onClick = onCrearTramite)
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        TarjetaAccion(Icons.Default.Add, "Crear trámite", "Nuevo documento o certificado") { /* en proceso */ }
+        TarjetaAccion(Icons.Default.Add, "Crear trámite", "Nuevo documento o certificado", onCrearTramite)
         Spacer(modifier = Modifier.height(12.dp))
-        TarjetaAccion(Icons.AutoMirrored.Filled.List, "Mis trámites", "Revisa el estado de tus gestiones") { /* en proceso */ }
+        TarjetaAccion(Icons.AutoMirrored.Filled.List, "Mis trámites", "Revisa el estado de tus gestiones", onMisTramites)
         Spacer(modifier = Modifier.height(12.dp))
-        TarjetaAccion(Icons.Default.Edit, "Firmar documento", "Simple, avanzada o notariada") { /* en proceso */ }
+        TarjetaAccion(Icons.Default.Edit, "Firmar documento", "Simple, avanzada o notariada", onFirmarDocumento)
 
         Spacer(modifier = Modifier.height(24.dp))
     }

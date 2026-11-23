@@ -23,10 +23,15 @@ interface UsuariosApi {
 object RetrofitClient {
     private const val BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:LGRziPCT/"
 
-    fun crearApi(baseUrl: String = BASE_URL): UsuariosApi =
+    private fun crearRetrofit(baseUrl: String): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create()) // JSON <-> objetos Kotlin
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(UsuariosApi::class.java)
+
+    fun crearApi(baseUrl: String = BASE_URL): UsuariosApi =
+        crearRetrofit(baseUrl).create(UsuariosApi::class.java)
+
+    fun crearTramitesApi(baseUrl: String = BASE_URL): TramitesApi =
+        crearRetrofit(baseUrl).create(TramitesApi::class.java)
 }
